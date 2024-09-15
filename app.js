@@ -33,6 +33,14 @@ boxes.forEach((box) => {
 
 const checkwinner = ()=> {
     for(let pattern of winPatterns){
-        console.log(pattern)
+        let posval1 = boxes[pattern[0]].innerText
+        let posval2 = boxes[pattern[1]].innerText
+        let posval3 = boxes[pattern[2]].innerText
+
+        if(posval1 != "" && posval2 != "" && posval3 != ""){
+            if(posval1 === posval2 && posval2 === posval3){
+                console.log("Winner",posval1)
+            }
+        }
     }
-}
+}  
