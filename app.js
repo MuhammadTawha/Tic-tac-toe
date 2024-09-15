@@ -17,6 +17,10 @@ const winPatterns = [
     [6,7,8],
 ];
 
+const resetgame = () => {
+    
+}
+
 boxes.forEach((box) => {
  box.addEventListener("click", () => {
     console.log("Box was clicked");
@@ -34,9 +38,15 @@ boxes.forEach((box) => {
  }) 
 })
 
+const disableboxes = () =>{
+     for (let box of boxes){
+        box.disabled = true;
+     }
+}
 const showWinner = (winner) => {
     msg.innerText = `Congratulations . Winner is ${winner}`
     msgContainer.classList.remove("hide");
+    disableboxes();  
 }
 
 const checkWinner = ()=> {
@@ -48,6 +58,7 @@ const checkWinner = ()=> {
         if(posval1 != "" && posval2 != "" && posval3 != ""){
             if(posval1 === posval2 && posval2 === posval3){
                 console.log("Winner",posval1);
+                
                 showWinner(posval1);
             }
         }
