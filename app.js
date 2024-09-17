@@ -19,9 +19,13 @@ const winPatterns = [
 
 const resetgame = () => {
     turnO = true;
+    clickcounts = 0;
     enableboxes();
     msgContainer.classList.add("hide");
 }
+
+let clickcounts = 0;
+let maxclicks = 9;
 
 boxes.forEach((box) => {
     box.addEventListener("click", () => {
@@ -34,9 +38,14 @@ boxes.forEach((box) => {
            turnO = true;
        }
        box.disabled = true;
-   
-       checkWinner();
-    }) 
+
+       clickcounts++;
+       console.log(clickcounts)
+
+       if(clickcounts === maxclicks ){
+        checkWinner();
+       }
+    })
    });
 
 const disableboxes = () => {
@@ -59,18 +68,28 @@ const showWinner = (winner) => {
 }
 
 const checkWinner = ()=> {
+    let winner = null;
+
     for(let pattern of winPatterns){
         let posval1 = boxes[pattern[0]].innerText;
         let posval2 = boxes[pattern[1]].innerText;
         let posval3 = boxes[pattern[2]].innerText;
 
-        if(posval1 != "" && posval2 != "" && posval3 != ""){
             if(posval1 === posval2 && posval2 === posval3){
-                showWinner(posval1);
+                winner = posval1;
+                break;
             }
         }
-    }
-}; 
+        if(winner){
+            showWinner(winner)
+        }
+        else if(clickcounts === maxclicks){
+            msg.innerText = "It's a draw"
+            msgContainer.classList.remove("hide");
+            disableboxes();
+        }
+
+    }; 
 
 newGamebtn.addEventListener("click", resetgame);
 resetbtn.addEventListener("click", resetgame);
