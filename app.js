@@ -1,8 +1,10 @@
 let boxes = document.querySelectorAll(".box");
 let resetbtn  = document.querySelector("#reset-btn");
 let newGamebtn = document.querySelector("#New-btn");
-let msgContainer = document.querySelector(".msg-container");
+let modalcontent = document.querySelector(".modal-content");
+let mymodal = document.querySelector(".modal");
 let msg = document.querySelector("#msg");
+let closemodal = document.querySelector(".close")
 
 let turnO = true; 
 
@@ -21,7 +23,7 @@ const resetgame = () => {
     turnO = true;
     clickcounts = 0;
     enableboxes();
-    msgContainer.classList.add("hide");
+    mymodal.style.display = "none"
 }
 
 let clickcounts = 0;
@@ -61,9 +63,9 @@ const enableboxes = () =>{
     }
 }
 
-const showWinner = (winner) => {
-    msg.innerText = `Congratulations . Winner is ${winner}`
-    msgContainer.classList.remove("hide");
+const showmodal = (message) => {
+    msg.innerText =message
+    mymodal.style.display = "block"
     disableboxes();  
 }
 
@@ -81,11 +83,11 @@ const checkWinner = ()=> {
             }
         }
         if(winner){
-            showWinner(winner)
+            showmodal(`Congratulations . Winner is ${winner}`)
         }
         else if(clickcounts === maxclicks){
             msg.innerText = "It's a draw"
-            msgContainer.classList.remove("hide");
+            mymodal.style.display = "block"
             disableboxes();
         }
 
@@ -93,3 +95,8 @@ const checkWinner = ()=> {
 
 newGamebtn.addEventListener("click", resetgame);
 resetbtn.addEventListener("click", resetgame);
+
+
+closemodal.addEventListener("click",()=>{
+    mymodal.style.display = "none"
+})
