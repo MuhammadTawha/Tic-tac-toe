@@ -7,6 +7,10 @@ let msg = document.querySelector("#msg");
 let closemodal = document.querySelector(".close")
 
 let turnO = true; 
+let clickcounts = 0;
+let maxclicks = 9;
+
+ mymodal.style.display = "none";
 
 const winPatterns = [
     [0,1,2],
@@ -19,18 +23,10 @@ const winPatterns = [
     [6,7,8],
 ];
 
-const resetgame = () => {
-    turnO = true;
-    clickcounts = 0;
-    enableboxes();
-    mymodal.style.display = "none"
-}
-
-let clickcounts = 0;
-let maxclicks = 9;
 
 boxes.forEach((box) => {
     box.addEventListener("click", () => {
+
        if(turnO){
            box.innerText = "O"
            turnO = false;
@@ -39,37 +35,16 @@ boxes.forEach((box) => {
            box.innerText = "X"
            turnO = true;
        }
-       box.disabled = true;
+        box.disabled = true;
 
-       clickcounts++;
-       console.log(clickcounts)
+        clickcounts++;
 
-       if(clickcounts === maxclicks ){
         checkWinner();
-       }
     })
    });
 
-const disableboxes = () => {
-     for (let box of boxes){
-        box.disabled = true;
-     }
-}
 
-const enableboxes = () =>{
-    for (let box of boxes) {
-       box.disabled = false;
-       box.innerText = "";
-    }
-}
-
-const showmodal = (message) => {
-    msg.innerText =message
-    mymodal.style.display = "block"
-    disableboxes();  
-}
-
-const checkWinner = ()=> {
+   const checkWinner = ()=> {
     let winner = null;
 
     for(let pattern of winPatterns){
@@ -77,10 +52,12 @@ const checkWinner = ()=> {
         let posval2 = boxes[pattern[1]].innerText;
         let posval3 = boxes[pattern[2]].innerText;
 
+        if(posval1 !="" && posval2 !="" && posval3 !=""){
             if(posval1 === posval2 && posval2 === posval3){
                 winner = posval1;
                 break;
             }
+        }
         }
         if(winner){
             showmodal(`Congratulations . Winner is ${winner}`)
@@ -93,10 +70,38 @@ const checkWinner = ()=> {
 
     }; 
 
+    const showmodal = (message) => {
+        msg.innerText =message
+        mymodal.style.display = "block"
+        disableboxes();  
+    }
+
+
+    const disableboxes = () => {
+        for (let box of boxes){
+        box.disabled = true;
+        }
+    }
+
+    const enableboxes = () => {
+        for (let box of boxes) {
+       box.disabled = false;
+       box.innerText = "";
+        }
+    }
+
+    const resetgame = () => {
+        turnO = true;
+        clickcounts = 0;
+        enableboxes();
+        mymodal.style.display = "none"
+    }
+    
 newGamebtn.addEventListener("click", resetgame);
 resetbtn.addEventListener("click", resetgame);
 
 
 closemodal.addEventListener("click",()=>{
-    mymodal.style.display = "none"
+    mymodal.style.display = "none";
+    enableboxes();
 })
